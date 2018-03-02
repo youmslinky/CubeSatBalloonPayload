@@ -1,0 +1,43 @@
+chip starts in config mode (from reset)
+	values can only be set while in CONFIGMODE
+	the chip must be set to out of CONFIGMODE in order for sensor data to be read
+	
+	OPR_MODE 0x3d
+	
+might want to change unit selection
+	UNIT_SEL 0x3B
+
+turn on fusion mode NDOF
+	set OPR_MODE 0x3d to:
+		0bxxxx1100
+
+paremeter data we want:
+	quaternion (rotation) data
+		QUA_Data_w
+		QUA_Data_x
+		QUA_Data_y
+		QUA_Data_z
+	
+	linear acceleration vector
+		LIA_Data_X	MSB:0x29 LSB:0x28
+		LIA_Data_Y	MSB:0x2b LSB:0x
+		LIA_Data_Z
+
+	gravity vector
+		GRV_Data_X
+		GRV_Data_Y
+		GRV_Data_Z
+		
+	temperature
+		TEMP
+	
+	
+
+system status 0x39
+	Read: 0 System idle,
+	1 System Error,
+	2 Initializing peripherals
+	3 System Initialization
+	4 Executing selftest,
+	5 Sensor fusion algorithm running,
+	6 System running without fusion algorithm
