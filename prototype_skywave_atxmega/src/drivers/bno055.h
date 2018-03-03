@@ -41,7 +41,6 @@
 #define BNO055_TEMP_ADDR					(0X34)
 
 
-
 /* Unit selection register*/
 #define BNO055_UNIT_SEL_ADDR				(0X3B)
 #define BNO055_DATA_SELECT_ADDR				(0X3C)
@@ -56,10 +55,41 @@
 #define BNO055_INTR_STAT_ADDR				(0X37)
 #define BNO055_SYS_CLK_STAT_ADDR			(0X38)
 #define BNO055_SYS_STAT_ADDR				(0X39)
-#define BNO055_SYS_ERR_ADDR					(0X3A)
+/*
+Read: 0 System idle,
+1 System Error,
+2 Initializing peripherals
+3 System Initialization
+4 Executing selftest,
+5 Sensor fusion algorithm running,
+6 System running without fusion algorithm
+*/
 
+#define BNO055_SYS_ERR_ADDR					(0X3A)
+/*
+Read the error status from this register if the SYS_STATUS (0x39) register is SYSTEM ERROR
+(0x01)
+Read : 0 No error
+1 Peripheral initialization error
+2 System initialization error
+3 Self test result failed
+4 Register map value out of range
+5 Register map address out of range
+6 Register map write error
+7 BNO low power mode not available for selected operation mode
+8 Accelerometer power mode not available
+9 Fusion algorithm configuration error
+A Sensor configuration error*/
+
+
+//TWI chip addresses
 #define BNO055_TWI_ADDRESS_1				(0X28)	//default address
 #define BNO055_TWI_ADDRESS_2				(0X29)	//can be switched to this address if necessary with one of the pins
+
+
+#define QUAT_CONVERSION_FACTOR (16384.0)
+#define LINEAR_ACCEL_CONVERSION_FACTOR (100.0)
+
 
 
 typedef struct{
@@ -106,6 +136,9 @@ typedef struct{
 
 }bno055_data_t;
 
+int bno055_is_alive(void);
+
+void bno055_setmode_NDOF(void);
 
 void bno055_get_data(void);
 
@@ -113,4 +146,5 @@ void bno055_process_data(void);
 
 void bno055_data_handler(uint8_t* buffer);
 
+void single_byte_handler(uint8_t* buffer);
 #endif

@@ -15,6 +15,18 @@ void usart_comms_init(void);
 
 volatile char temp;
 
+void usart_print(USART_t *usart, char *text);
+
+uint8_t* return_gps_data(void);
+
+void get_new_data(void);
+
+void set_busy_flag(void);
+
+void clear_busy_flag(void);
+
+_Bool check_busy_flag(void);
+
 
 
 

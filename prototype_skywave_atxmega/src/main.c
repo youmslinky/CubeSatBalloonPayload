@@ -72,16 +72,14 @@ int main (void)
 	
 	usart_comms_init();
 	twi_comms_init();
-	ntcle100_init();
-	spi_comms_init();
 	
-	ms5607_init();
 
 
 	PORTE.DIR |= (1<<0) | (1<<1);
 	//PORTD.DIR &= ~(1<<2); //not sure what this was for
 
-	//pins for IMU
+
+	//pins for bno055
 	//enable pullups and output for portf pins 0, 1 (sda,scl)
 	PORTF.PIN0CTRL = PORT_OPC_WIREDANDPULL_gc;
 	PORTF.PIN1CTRL = PORT_OPC_WIREDANDPULL_gc;
@@ -94,25 +92,47 @@ int main (void)
 	//set pin to output for writing to the openlogger
 	PORTD.DIR |= 0b00001000;
 
-
-	void tempDataHandler(uint8_t* buffer)
-	{
-		printf("%d\n",buffer[0]);
-		buffer[0] = 0;
-	}
-	
-	//set up bno055
 	delay_ms(1000);
-	twi_write(0x28,BNO055_OPR_MODE_ADDR,0b00001100); //set operating mode to ndof (nine degrees of freedom)
+	//set up bno055
+	while (!(bno055_is_alive())){}
+	bno055_setmode_NDOF();
+
+	delay_ms(1000);
 
 	while (1) 
 	{
 		//usart_putchar(&USARTD0,'t');  //write to openlogger
 		
+// 		uint8_t status;
+// 		uint8_t pull_value;
+// 		status = fifo_push_uint8(&fifo_desc, i++ & 0xff);
+// 		status = fifo_pull_uint8(&fifo_desc, &pull_value);
+// 		printf("pushed val: %x\n",PUSH_VALUE);
+// 		printf("pulled val: %x\n",pull_value);
+
+		//usart_print(&USARTD0,"hello\n");
+		
 		bno055_get_data();
 		bno055_process_data();
+
+		usart_print(&USARTD0,)
+//		uint8_t* stuff = return_gps_data();
+// 		if(check_busy_flag())
+// 		{
+// 			int num = 0;
+// 			while(stuff[num] != '\0')
+// 			{
+// 				usart_putchar(&USARTC0, stuff[num]);
+// 				stuff[num++] = '\0';
+// 			}
+// 			num = 0;
+// 			clear_busy_flag();
+// 			printf("\n\n");
+// 		}
+		//printf(return_gps_data());
+		//get_new_data();
 		PORTE.OUT ^= (1<<0);
-		delay_ms(500);
+		delay_ms(1000);
 		
 	}
 }
