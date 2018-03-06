@@ -46,18 +46,19 @@ void bno055_process_data(void){
 	bno055_data.quat_y = (double)(bno055_raw_data.quat_w/QUAT_CONVERSION_FACTOR);
 	bno055_data.quat_z = (double)(bno055_raw_data.quat_w/QUAT_CONVERSION_FACTOR);
 	
-	bno055_data.accel_x = (double)(bno055_raw_data.accel_x/100.0);
-	bno055_data.accel_y = (double)(bno055_raw_data.accel_y/100.0);
-	bno055_data.accel_z = (double)(bno055_raw_data.accel_z/100.0);
+	bno055_data.accel_x = (double)(bno055_raw_data.accel_x/LINEAR_ACCEL_CONVERSION_FACTOR);
+	bno055_data.accel_y = (double)(bno055_raw_data.accel_y/LINEAR_ACCEL_CONVERSION_FACTOR);
+	bno055_data.accel_z = (double)(bno055_raw_data.accel_z/LINEAR_ACCEL_CONVERSION_FACTOR);
 	
-	bno055_data.grav_x = (double)(bno055_raw_data.grav_x/100.0);;
-	bno055_data.grav_y = (double)(bno055_raw_data.grav_y/100.0);;
-	bno055_data.grav_z = (double)(bno055_raw_data.grav_z/100.0);;
+	bno055_data.grav_x = (double)(bno055_raw_data.grav_x/GRAVITY_ACCEL_CONVERSION_FACTOR);
+	bno055_data.grav_y = (double)(bno055_raw_data.grav_y/GRAVITY_ACCEL_CONVERSION_FACTOR);
+	bno055_data.grav_z = (double)(bno055_raw_data.grav_z/GRAVITY_ACCEL_CONVERSION_FACTOR);
 	
-	//printf("temp: %d\n",bno055_raw_data.temp);
+	
 	printf("quat : w:%lf x:%lf y:%lf z:%lf\n",bno055_data.quat_w,bno055_data.quat_x,bno055_data.quat_y,bno055_data.quat_z);
 	printf("accel: x:%lf y:%lf z:%lf\n",bno055_data.accel_x,bno055_data.accel_y,bno055_data.accel_z);
 	printf("gravity: x:%lf y:%lf z:%lf\n",bno055_data.grav_x,bno055_data.grav_y,bno055_data.grav_z);
+	printf("temp: %d\n",bno055_raw_data.temp);
 	//printf("gravity mag: %lf\n",sqrt(pow(bno055_data.grav_x,2.0)+pow(bno055_data.grav_y,2.0)+pow(bno055_data.grav_z,2.0)));
 	
 }

@@ -10,12 +10,19 @@
 #define USART_DRIVER_H
 
 #include "project_skywave.h"
+#include "utility/circular_buff.h"
 
 void usart_comms_init(void);
 
 volatile char temp;
 
 void usart_print(USART_t *usart, char *text);
+
+uint8_t read_gpsdata(void);
+int gpsdata_buffer_size(void);
+circular_buf_t* get_cbuf(void);
+int data_ready(void);
+void take_data(void);
 
 uint8_t* return_gps_data(void);
 

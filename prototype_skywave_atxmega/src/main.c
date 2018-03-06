@@ -37,8 +37,9 @@
 #include "drivers/imu_driver.h"
 #include "drivers/ms5611.h"
 #include "drivers/bno055.h"
+#include "drivers/ultimate_gps_driver.h"
+#include "utility/circular_buff.h"
 
-//#include "drivers/bno055_support.c"
 
 
 int main (void)
@@ -57,22 +58,14 @@ int main (void)
 	//eventually enable this
 	cpu_irq_enable();
 
-
-	
-	
-
 	sysclk_enable_peripheral_clock(&TWIF);
 	sysclk_enable_peripheral_clock(&ADCA);
 	sysclk_enable_peripheral_clock(&USARTC0);
 	sysclk_enable_peripheral_clock(&USARTD0);
 	sysclk_enable_peripheral_clock(&SPIC);
-
-	
-
 	
 	usart_comms_init();
 	twi_comms_init();
-	
 
 
 	PORTE.DIR |= (1<<0) | (1<<1);
@@ -99,40 +92,34 @@ int main (void)
 
 	delay_ms(1000);
 
+
+	circular_buf_t *gps_cbuf = get_cbuf();
+
 	while (1) 
 	{
-		//usart_putchar(&USARTD0,'t');  //write to openlogger
 		
-// 		uint8_t status;
-// 		uint8_t pull_value;
-// 		status = fifo_push_uint8(&fifo_desc, i++ & 0xff);
-// 		status = fifo_pull_uint8(&fifo_desc, &pull_value);
-// 		printf("pushed val: %x\n",PUSH_VALUE);
-// 		printf("pulled val: %x\n",pull_value);
+		
+		uint8_t data;
+		if(data_ready() >= 1)
+		{
+			while(1)
+			{
+				circular_buf_get(gps_cbuf,&data);
+				printf("%c",data);
+				if(data == '\n') break;
+			}
+			take_data();
+		}
+		printf("numdataready: %d\n",data_ready());
+		
+		//usart_putchar(&USARTD0,'t');  //write to openlogger
 
 		//usart_print(&USARTD0,"hello\n");
 		
 		bno055_get_data();
 		bno055_process_data();
-
-		usart_print(&USARTD0,)
-//		uint8_t* stuff = return_gps_data();
-// 		if(check_busy_flag())
-// 		{
-// 			int num = 0;
-// 			while(stuff[num] != '\0')
-// 			{
-// 				usart_putchar(&USARTC0, stuff[num]);
-// 				stuff[num++] = '\0';
-// 			}
-// 			num = 0;
-// 			clear_busy_flag();
-// 			printf("\n\n");
-// 		}
-		//printf(return_gps_data());
-		//get_new_data();
 		PORTE.OUT ^= (1<<0);
-		delay_ms(1000);
+		delay_ms(200);
 		
 	}
 }
