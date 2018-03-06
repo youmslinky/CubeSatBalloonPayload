@@ -89,6 +89,7 @@ A Sensor configuration error*/
 
 #define QUAT_CONVERSION_FACTOR (16384.0)
 #define LINEAR_ACCEL_CONVERSION_FACTOR (100.0)
+#define GRAVITY_ACCEL_CONVERSION_FACTOR (100.0)
 
 
 
