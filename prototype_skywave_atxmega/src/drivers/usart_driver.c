@@ -6,16 +6,25 @@
  */ 
 #include "drivers/usart_driver.h"
 #include <string.h>
+
+#define CIRCULAR_BUFFER_SIZE 512
+
 volatile uint8_t gpsdata[512];
-static uint8_t gpsdata_old[512];
+
+
 volatile char tempChar;
-int tempCounter;
-_Bool dataReady;
+volatile int numDataReady = 0;
+
+
+static uint8_t circbuffer[CIRCULAR_BUFFER_SIZE];
+static circular_buf_t cbuf;
+
+
+
+
 
 void usart_comms_init()
 {
-	dataReady = false;
-	tempCounter = 0;
 	static usart_serial_options_t uconfc0 =
 	{
 		.baudrate = 115200,
@@ -50,6 +59,11 @@ void usart_comms_init()
 	stdio_serial_init(&USARTC0, &uconfc0);
 	usart_set_rx_interrupt_level(&USARTC0, USART_INT_LVL_HI);
 	printf("USART INIT SUCCESS\n");
+	
+	
+	circular_buf_reset(&cbuf);
+	cbuf.size = CIRCULAR_BUFFER_SIZE;
+	cbuf.buffer = circbuffer;
 }
 
 void usart_print(USART_t *usart, char *text)
@@ -73,79 +87,49 @@ ISR(USARTC0_RXC_vect)
 uint8_t newline_count = 0;
 uint8_t buffer_position = 0;
 _Bool gpsdata_ready = false;
-volatile char stuff;
-_Bool firsttry = false;
+volatile char current_char;
 
-#define RING_BUFF_SIZE 2048
-char ring_buff[RING_BUFF_SIZE];
-uint16_t ring_buff_rd = 0;
-uint16_t ring_buff_wr = 0;
+
+
 
 
 ISR(USARTD0_RXC_vect)
 {
-	stuff = usart_getchar(&USARTD0);
-
-	//putchar(usart_getchar(&USARTD0));
-//  	tempChar = usart_getchar(&USARTD0);
-//  	if(tempChar == '\r')
-//  	{
-// 	 	newline_count++;
-//  	}
-//  	gpsdata[tempCounter++] = tempChar;
-//  	if(newline_count >= 1)
-//  	{
-// 	 	dataReady = true;
-// 	 	newline_count = 0;
-// 	 	tempCounter = 0;
-//  	}
-
-	//usart_putchar(usart_getchar(&))
-
-	
-	
-	
-	
-
-// 	uint8_t recieved_char;
-// 	recieved_char = usart_getchar(&USARTD0);
-// 	gpsdata[buffer_position] = recieved_char;
-// 	buffer_position++;
-// 	if(recieved_char == '\n')
-// 	{
-// 		newline_count++;
-// 	}
-// 	if(newline_count == 4)
-// 	{
-// 		//printf(gpsdata);
-// 		strcpy(gpsdata_old,gpsdata);
-// 		gpsdata_ready = true;
-// 		buffer_position = 0;
-// 		newline_count = 0;
-// 	}
-}
-
-uint8_t* return_gps_data(void){
-	//gpsdata_ready = false;
-	return gpsdata;
+// 	putchar(usart_getchar(&USARTD0);
+	current_char = usart_getchar(&USARTD0);
+	if(circular_buf_full(cbuf))
+	{
+		printf("buffer is full, overwriting old data!\n");
+	}
+	if(current_char == '\n') numDataReady++;
+	circular_buf_put(&cbuf, current_char);
+	//putchar(current_char);
 
 }
 
-void get_new_data(void){
-	gpsdata_ready = false;
-}
-
-void set_busy_flag(void)
+uint8_t read_gpsdata(void)
 {
-	dataReady = true;
+	uint8_t data;
+	circular_buf_get(&cbuf,&data);
+	return data;
 }
 
-void clear_busy_flag(void)
+int gpsdata_buffer_size(void)
 {
-	dataReady = false;
+	return cbuf.head - cbuf.tail;
 }
 
-_Bool check_busy_flag(void)
+circular_buf_t* get_cbuf(void)
 {
-	return dataReady;
+	return &cbuf;
+}
+
+int data_ready(void)
+{
+	return numDataReady;
+}
+
+void take_data(void)
+{
+	numDataReady--;
 }
