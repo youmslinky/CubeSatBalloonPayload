@@ -70,3 +70,8 @@ int circular_buf_get(circular_buf_t * cbuf, uint8_t * data)
 
 	return r;
 }
+
+int buffer_size(circular_buf_t * cbuf)
+{
+	return cbuf.tail - cbuf.head;
+}

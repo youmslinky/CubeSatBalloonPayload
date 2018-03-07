@@ -23,5 +23,6 @@ int circular_buf_put(circular_buf_t * cbuf, uint8_t data);
 int circular_buf_get(circular_buf_t * cbuf, uint8_t * data);
 _Bool circular_buf_empty(circular_buf_t cbuf);
 _Bool circular_buf_full(circular_buf_t cbuf);
+int buffer_size(circular_buf_t * cbuf);
 
 #endif
