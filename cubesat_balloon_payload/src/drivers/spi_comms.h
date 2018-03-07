@@ -7,7 +7,7 @@
 #ifndef SPI_COMMS_H
 #define SPI_COMMS_H
 
-#include "project_skywave.h"
+#include "cubesat_balloon_payload.h"
 
 void set_slave_low(register8_t* slave_regi, int pin);
 	

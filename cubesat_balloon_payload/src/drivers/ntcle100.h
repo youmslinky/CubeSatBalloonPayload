@@ -7,7 +7,7 @@
 
 #ifndef NTCLE100_H
 #define NTCLE100_H
-#include "project_skywave.h"
+#include "cubesat_balloon_payload.h"
 
 void ntcle100_init(void);
 

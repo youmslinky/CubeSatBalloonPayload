@@ -9,7 +9,7 @@
  #ifndef ULTIMATE_GPS_DRIVER_H
  #define ULTIMATE_GPS_DRIVER_H
 
-#include "project_skywave.h"
+#include "cubesat_balloon_payload.h"
 #include "drivers/usart_driver.h"
 #include "utility/circular_buff.h"
 //TODO add function definitions

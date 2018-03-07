@@ -8,7 +8,7 @@
 #define IMU_DRIVER_H
 
 
-#include "project_skywave.h"
+#include "cubesat_balloon_payload.h"
 #include "twi_comms_driver.h"
 
 typedef struct{
