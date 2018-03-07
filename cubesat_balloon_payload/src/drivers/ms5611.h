@@ -6,7 +6,7 @@
  */ 
 #ifndef MS5611_H
 #define MS5611_H
-#include "project_skywave.h"
+#include "cubesat_balloon_payload.h"
 #include "drivers/spi_comms.h"
 
 typedef struct calib_data

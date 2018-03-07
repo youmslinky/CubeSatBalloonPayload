@@ -1,11 +1,11 @@
 /*
- * project_skywave.h
+ * cubesat_balloon_payload.h
  *
  * Created: 1/3/2018 5:52:02 PM
  *  Author: Penguin
  */ 
-#ifndef PROJECT_SKYWAVE_H
-#define PROJECT_SKYWAVE_H
+#ifndef CUBESAT_BALLOON_PAYLOAD_H
+#define CUBESAT_BALLOON_PAYLOAD_H
 
 #include <asf.h>
 #include "register_map.h"

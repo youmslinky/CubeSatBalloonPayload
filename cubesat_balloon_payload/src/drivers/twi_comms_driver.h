@@ -6,7 +6,7 @@
  */ 
 #ifndef TWI_COMMS_DRIVER_H
 #define TWI_COMMS_DRIVER_H
-#include "project_skywave.h"
+#include "cubesat_balloon_payload.h"
 
 
 

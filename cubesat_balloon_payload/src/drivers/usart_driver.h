@@ -9,7 +9,7 @@
 #ifndef USART_DRIVER_H
 #define USART_DRIVER_H
 
-#include "project_skywave.h"
+#include "cubesat_balloon_payload.h"
 #include "utility/circular_buff.h"
 
 void usart_comms_init(void);

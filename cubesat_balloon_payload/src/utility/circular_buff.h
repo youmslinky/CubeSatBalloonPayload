@@ -8,7 +8,7 @@
 
 #ifndef CIRCULAR_BUFF_H
 #define CIRCULAR_BUFF_H
-#include "project_skywave.h"
+#include "cubesat_balloon_payload.h"
 
 
 typedef struct {

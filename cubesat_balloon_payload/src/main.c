@@ -31,7 +31,7 @@
 /*
  * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
  */
-#include "project_skywave.h"
+#include "cubesat_balloon_payload.h"
 #include "drivers/usart_driver.h"
 #include "drivers/ntcle100.h"
 #include "drivers/imu_driver.h"
