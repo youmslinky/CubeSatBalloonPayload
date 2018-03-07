@@ -40,6 +40,7 @@
 #include "drivers/ms5611.h"
 #include "drivers/bno055.h"
 #include "drivers/ultimate_gps_driver.h"
+
 #include "utility/circular_buff.h"
 
 
@@ -102,7 +103,7 @@ int main (void)
 		
 		
 		uint8_t data;
-		if(data_ready() >= 1)
+		if(num_lines_ready() >= 1)
 		{
 			while(1)
 			{
@@ -110,9 +111,9 @@ int main (void)
 				printf("%c",data);
 				if(data == '\n') break;
 			}
-			take_data();
+			take_line();
 		}
-		printf("numdataready: %d\n",data_ready());
+		printf("lines of data ready: %d\n",num_lines_ready());
 		
 		//usart_putchar(&USARTD0,'t');  //write to openlogger
 

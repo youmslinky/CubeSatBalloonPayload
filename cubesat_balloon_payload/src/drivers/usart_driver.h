@@ -14,26 +14,13 @@
 
 void usart_comms_init(void);
 
-volatile char temp;
-
 void usart_print(USART_t *usart, char *text);
 
-uint8_t read_gpsdata(void);
-int gpsdata_buffer_size(void);
 circular_buf_t* get_cbuf(void);
-int data_ready(void);
-void take_data(void);
 
-uint8_t* return_gps_data(void);
+int num_lines_ready(void);
 
-void get_new_data(void);
-
-void set_busy_flag(void);
-
-void clear_busy_flag(void);
-
-_Bool check_busy_flag(void);
-
+void take_line(void);
 
 
 

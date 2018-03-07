@@ -9,19 +9,13 @@
 
 #define CIRCULAR_BUFFER_SIZE 512
 
-volatile uint8_t gpsdata[512];
 
-
-volatile char tempChar;
-volatile int numDataReady = 0;
-
-
+volatile int numDataLinesReady = 0;
 static uint8_t circbuffer[CIRCULAR_BUFFER_SIZE];
 static circular_buf_t cbuf;
-
-
-
-
+uint8_t newline_count = 0;
+uint8_t buffer_position = 0;
+volatile char current_char;
 
 void usart_comms_init()
 {
@@ -76,22 +70,8 @@ void usart_print(USART_t *usart, char *text)
 
 ISR(USARTC0_RXC_vect)
 {	
-	//PORTE.OUT &= ~(1<<1);
-	//temp = getchar();
-	//putchar(temp);
-	//PORTE.OUT |= (1<<1);
 	putchar(getchar());
 }
-
-
-uint8_t newline_count = 0;
-uint8_t buffer_position = 0;
-_Bool gpsdata_ready = false;
-volatile char current_char;
-
-
-
-
 
 ISR(USARTD0_RXC_vect)
 {
@@ -102,23 +82,10 @@ ISR(USARTD0_RXC_vect)
 	{
 		printf("buffer is full, overwriting old data!\n");
 	}
-	if(current_char == '\n') numDataReady++;
 	#endif
 	circular_buf_put(&cbuf, current_char);
+	if(current_char == '\n') numDataLinesReady++;
 	//putchar(current_char);
-
-}
-
-uint8_t read_gpsdata(void)
-{
-	uint8_t data;
-	circular_buf_get(&cbuf,&data);
-	return data;
-}
-
-int gpsdata_buffer_size(void)
-{
-	return cbuf.head - cbuf.tail;
 }
 
 circular_buf_t* get_cbuf(void)
@@ -126,12 +93,12 @@ circular_buf_t* get_cbuf(void)
 	return &cbuf;
 }
 
-int data_ready(void)
+int num_lines_ready(void)
 {
-	return numDataReady;
+	return numDataLinesReady;
 }
 
-void take_data(void)
+void take_line(void)
 {
-	numDataReady--;
+	numDataLinesReady--;
 }
