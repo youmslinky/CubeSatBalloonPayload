@@ -73,5 +73,5 @@ int circular_buf_get(circular_buf_t * cbuf, uint8_t * data)
 
 int buffer_size(circular_buf_t * cbuf)
 {
-	return cbuf.tail - cbuf.head;
+	return cbuf->tail - cbuf->head;
 }
