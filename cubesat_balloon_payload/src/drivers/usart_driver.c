@@ -97,11 +97,13 @@ ISR(USARTD0_RXC_vect)
 {
 // 	putchar(usart_getchar(&USARTD0);
 	current_char = usart_getchar(&USARTD0);
+	#ifdef DEBUG
 	if(circular_buf_full(cbuf))
 	{
 		printf("buffer is full, overwriting old data!\n");
 	}
 	if(current_char == '\n') numDataReady++;
+	#endif
 	circular_buf_put(&cbuf, current_char);
 	//putchar(current_char);
 
