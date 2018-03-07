@@ -8,7 +8,6 @@
 #define CUBESAT_BALLOON_PAYLOAD_H
 
 #include <asf.h>
-#include "register_map.h"
 
 //#define 
 typedef enum SW_STATUS{SW_RED = -1, SW_GREEN = 0, SW_YELLOW = 1}SW_STATUS;	

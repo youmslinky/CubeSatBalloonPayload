@@ -7,6 +7,8 @@
 #ifndef IMU_DRIVER_H
 #define IMU_DRIVER_H
 
+#define MPU_9250_ADDR 0b1101000 //MPU9250 Gyro + Accel slave address
+#define AK8963_ADDR 0x0C		//MPU9250 Mag slave address
 
 #include "cubesat_balloon_payload.h"
 #include "twi_comms_driver.h"

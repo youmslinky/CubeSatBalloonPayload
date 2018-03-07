@@ -433,9 +433,6 @@
     <Compile Include="src\drivers\ultimate_gps_driver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\register_map.h">
-      <SubType>compile</SubType>
-    </Compile>
     <None Include="src\ASF\common\services\serial\serial.h">
       <SubType>compile</SubType>
     </None>

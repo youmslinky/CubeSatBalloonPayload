@@ -9,6 +9,18 @@
 #include "cubesat_balloon_payload.h"
 #include "drivers/spi_comms.h"
 
+/* registers */
+#define MS5611_RESET 0x1E
+#define D1_CMD 0x48 //Digital Pressure Reading
+#define D2_CMD 0x58 //Digital Temperature Reading
+
+#define C1_CMD 0xA2 //Pressure Sensitivity
+#define C2_CMD 0xA4 //Pressure Offset
+#define C3_CMD 0xA6 //Temperature Coefficient of Pressure Sensitivity
+#define C4_CMD 0xA8 //Temperature Coefficient of Pressure Offset
+#define C5_CMD 0xAA //Reference Temperature
+#define C6_CMD 0xAC //Temperature Coefficient of the Temperature
+
 typedef struct calib_data
 {
 	uint16_t pressure_sens;
